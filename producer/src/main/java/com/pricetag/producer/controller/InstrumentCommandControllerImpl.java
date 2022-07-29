@@ -5,10 +5,12 @@ import com.pricetag.aspect.Loggable;
 import com.pricetag.model.InstrumentDTO;
 import com.pricetag.producer.service.InstrumentCommandService;
 import com.pricetag.response.WrapperCollectionResponse;
+import com.pricetag.response.WrapperResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import javax.xml.bind.JAXBException;
 
 
@@ -21,8 +23,13 @@ public class InstrumentCommandControllerImpl implements InstrumentCommandControl
     private final InstrumentCommandService instrumentCommandService;
 
     @Override
-    public WrapperCollectionResponse<InstrumentDTO> save(String  request) throws JAXBException {
+    public WrapperCollectionResponse<InstrumentDTO> save(@Valid String request) throws JAXBException {
         return WrapperCollectionResponse.of(instrumentCommandService.save(request));
+    }
+
+    @Override
+    public WrapperResponse<InstrumentDTO> saveCacheable(@Valid InstrumentDTO request)  {
+        return WrapperResponse.of(instrumentCommandService.saveCacheable(request));
     }
 
 }
